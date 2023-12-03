@@ -20,6 +20,23 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeanJPNM/monaco-vue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JeanJPNM/monaco-vue/issues"
+  },
+  "keywords": [
+    "vue",
+    "monaco-editor",
+    "vue3"
+  ],
   "peerDependencies": {
     "monaco-editor": "^0.44.0",
     "vue": "^3.0.0"
