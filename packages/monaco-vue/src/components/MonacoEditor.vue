@@ -26,7 +26,6 @@ const emit = defineEmits<{
 
 const props = withDefaults(defineProps<EditorProps>(), {
   value: '',
-  defaultValue: '',
   language: 'plaintext',
   options: () => ({}),
   saveViewState: true,
@@ -62,7 +61,12 @@ const languageRef = useEditorLanguage(
 
 watch([() => props.path, monacoRef, editorRef], ([path, monaco, editor], [previousPath]) => {
   if (!editor || !monaco || path === previousPath) return
-  const model = getOrCreateModel(monaco, props.defaultValue, props.defaultValue, path)
+  const model = getOrCreateModel(
+    monaco,
+    props.defaultValue ?? props.value,
+    props.defaultLanguage,
+    path
+  )
 
   if (model === editor.getModel()) return
   modelTracker.add(model)
@@ -90,7 +94,7 @@ function useCodeEditor() {
 
     const defaultModel = getOrCreateModel(
       monaco,
-      props.defaultValue,
+      props.defaultValue ?? props.value,
       props.defaultLanguage,
       props.path
     )
