@@ -1,0 +1,13 @@
+{
+  "name": "@jeanjpnm/monaco-vue-monorepo",
+  "private": true,
+  "packageManager": "pnpm@8.11.0",
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.3.3",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3"
+  }
+}
