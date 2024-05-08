@@ -41,13 +41,12 @@ const containerRef = ref<HTMLElement>()
 const { monacoRef } = injectMonaco()
 const editorRef = useCodeEditor()
 
-const valueRef = useEditorValue(
+useEditorValue(
   monacoRef,
   editorRef,
   () => props.value,
-  () => {
-    emit('update:value', valueRef.value)
-  }
+  () => props.path,
+  (value) => emit('update:value', value)
 )
 
 const languageRef = useEditorLanguage(

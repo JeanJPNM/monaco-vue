@@ -7,9 +7,10 @@ export function useEditorValue(
   monacoRef: MonacoRef,
   editorRef: CodeEditorRef,
   valueGetter: () => string,
-  onChangeEvent: (event: monaco.editor.IModelContentChangedEvent) => void
+  pathGetter: () => string | undefined,
+  onChangeEvent: (value: string, event: monaco.editor.IModelContentChangedEvent) => void
 ) {
-  const valueRef = ref<string>('')
+  let currentValue = ''
 
   watch(editorRef, (editor, _, onCleanup) => {
     if (!editor) return
@@ -17,25 +18,32 @@ export function useEditorValue(
     const modelContentSubscription = editor.onDidChangeModelContent((event) => {
       const text = editor.getValue()
 
-      if (text === valueRef.value) return
-      valueRef.value = text
-      onChangeEvent(event)
+      if (text === currentValue) return
+      currentValue = text
+      onChangeEvent(text, event)
     })
 
     onCleanup(() => modelContentSubscription.dispose())
   })
 
-  watch([monacoRef, editorRef, valueGetter], ([monaco, editor, value]) => {
-    // only update the text after the editor has been created
-    if (!monaco || !editor) return
+  watch(
+    [monacoRef, editorRef, valueGetter, pathGetter],
+    ([monaco, editor, value, path], [, , , previousPath]) => {
+      // only update the text after the editor has been created
+      if (!monaco || !editor) return
 
-    if (value === valueRef.value) return
-    valueRef.value = value
+      if (value === currentValue) return
+      currentValue = value
 
-    setEditorValue(monaco, editor, value)
-  })
+      // a change in the path means that the user is changing the current active file
+      // so the new value does not belong to the current editor text model
+      // the update will be handled by the onDidChangeModelContent event
+      if (path !== previousPath) return
+      currentValue = value
 
-  return valueRef
+      setEditorValue(monaco, editor, value)
+    }
+  )
 }
 
 export function useEditorLanguage(

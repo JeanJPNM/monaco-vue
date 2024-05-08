@@ -48,22 +48,20 @@ const diffEditorRef = useDiffCodeEditor()
 const originalEditorRef = computed(() => diffEditorRef.value?.getOriginalEditor())
 const modifiedEditorRef = computed(() => diffEditorRef.value?.getModifiedEditor())
 
-const originalRef = useEditorValue(
+useEditorValue(
   monacoRef,
   originalEditorRef,
   () => props.original,
-  () => {
-    emit('update:original', originalRef.value)
-  }
+  () => props.originalPath,
+  (value) => emit('update:original', value)
 )
 
-const modifiedRef = useEditorValue(
+useEditorValue(
   monacoRef,
   modifiedEditorRef,
   () => props.modified,
-  () => {
-    emit('update:modified', modifiedRef.value)
-  }
+  () => props.modifiedPath,
+  (value) => emit('update:modified', value)
 )
 
 watchEffect(() => {
