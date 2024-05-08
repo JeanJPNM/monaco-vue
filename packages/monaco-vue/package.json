@@ -1,6 +1,6 @@
 {
   "name": "@jeanjpnm/monaco-vue",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
