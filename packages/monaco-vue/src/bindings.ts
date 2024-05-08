@@ -26,10 +26,12 @@ export function useEditorValue(
   })
 
   watch([monacoRef, editorRef, valueGetter], ([monaco, editor, value]) => {
+    // only update the text after the editor has been created
+    if (!monaco || !editor) return
+
     if (value === valueRef.value) return
     valueRef.value = value
 
-    if (!monaco || !editor) return
     setEditorValue(monaco, editor, value)
   })
 
